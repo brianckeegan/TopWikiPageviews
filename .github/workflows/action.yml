@@ -1,0 +1,27 @@
+name: Wikipedia Top Pageviews
+
+on:
+  schedule:
+    - cron: '13 13 */1 * *'
+
+permissions:
+  contents: write 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Scrape data
+        run: |
+          curl "https://wikimedia.org/api/rest_v1/metrics/pageviews/top-per-country/US/all-access/$(date +%Y/%m%/%d/)" |
+          jq -r ".items.[0]" >> pageviews.json
+      - name: commit
+        run: |
+          git config user.email "bkeegan@gmail.com"
+          git config user.name "Scraping script"
+          git pull
+          git add *
+          git commit -m "New data"
+          git push
