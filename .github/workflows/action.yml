@@ -1,6 +1,7 @@
 name: Wikipedia Top Pageviews
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '13 13 */1 * *'
 
