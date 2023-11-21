@@ -16,7 +16,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Scrape data
         run: |
-          curl "https://wikimedia.org/api/rest_v1/metrics/pageviews/top-per-country/US/all-access/$(date --date "-2 days" +%Y/%m/%d)" >> pageviews.json
+          curl "https://wikimedia.org/api/rest_v1/metrics/pageviews/top-per-country/US/all-access/$(date --date "-1 days" +%Y/%m/%d)" | jq -r '.["items"][0]'>> pageviews.json
+          # curl "https://wikimedia.org/api/rest_v1/metrics/pageviews/top-per-country/US/all-access/$(date --date "-1 days" +%Y/%m/%d)" >> pageviews.json
       - name: commit
         run: |
           git config user.email "bkeegan@gmail.com"
